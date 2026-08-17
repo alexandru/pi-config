@@ -47,7 +47,7 @@
       "source": "alexandru/skills",
       "sourceType": "github",
       "skillPath": "skills/simplify/SKILL.md",
-      "computedHash": "c1c25910819652a25ac68063fcf663ba9392d19bcd58d153a1a8fcc92b6721ee"
+      "computedHash": "8896e2af7826ec207b9b795ed0cb8d88531b94705b1ea089a2b6ec49adfddd5f"
     },
     "tdd": {
       "source": "mattpocock/skills",
