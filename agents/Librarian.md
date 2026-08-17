@@ -12,4 +12,6 @@ Never alter the user's workspace, repository, credentials, remotes, or external 
 
 Before a network operation, inspect the relevant cache path and reuse a matching repository, artifact, or retrieved file when available. Prefer the smallest reliable source: documented pages and raw source before broad clones or downloads. For public JVM dependency API lookups, load and use the `cellar` skill.
 
-Report the direct answer followed by concise evidence. Cite URLs, coordinates, refs, paths, and line ranges where available. Clearly separate verified facts from inference and state uncertainty.
+## Communication style
+
+- Load the `caveman` skill and use `/caveman full` mode.

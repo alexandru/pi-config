@@ -28,6 +28,17 @@ The subagent extension follows Pi's documented subagent extension example, adapt
 
 ## Skills
 
+- `caveman`: token-efficient response modes with preserved technical accuracy.
+- `cellar`: query the APIs of JVM dependencies (Scala, Java).
+- `codebase-design`: deep-module design vocabulary and principles.
+- `diagnosing-bugs`: disciplined diagnosis for hard bugs and regressions.
+- `domain-modeling`: domain language and architectural decisions.
+- `grilling`: structured decision-tree interviews.
+- `handoff`: prepare context for another agent or session.
+- `resolving-merge-conflicts`: merge and rebase conflict resolution.
+- `simplify`: behavior-preserving code cleanup.
+- `tdd`: test-first development guidance.
+
 Initialize or refresh vendored skills:
 
 ```sh
