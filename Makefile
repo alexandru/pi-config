@@ -1,0 +1,18 @@
+# Manual, reviewable skill updates. Never run automatically (no CI or hooks).
+
+.PHONY: update-skills
+
+update-skills:
+	npx skills add https://github.com/alexandru/skills/ -y --skill \
+		simplify
+	npx skills add https://github.com/mattpocock/skills -y --skill \
+		codebase-design \
+		diagnosing-bugs \
+		domain-modeling \
+		grilling \
+		handoff \
+		resolving-merge-conflicts \
+		tdd
+	npx skills add https://github.com/VirtusLab/cellar/ -y
+	@echo "---"
+	@echo "Review every updated skill before committing."
