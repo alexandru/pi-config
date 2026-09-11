@@ -124,8 +124,6 @@ Sub-agents:
 
 ## Defined commands
 
-Commands use currently selected primary agent and do not override it.
-
 - `/plan`: prepare a detailed implementation plan and save it as a Markdown specification file.
 - `/grill-me`: stress-test a plan or decision.
 - `/grill-with-docs`: sharpen a plan or design while creating domain documentation.
