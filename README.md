@@ -9,8 +9,29 @@ Part of [alexandru/agents-config](https://github.com/alexandru/agents-config).
 
 ### Clone the repository
 
+**WARN** — This is for a fresh Pi installation (no history):
+
 ```sh
 git clone https://github.com/alexandru/pi-config.git ~/.pi/agent
+```
+
+**WARN:** This is Pi's working directory, so you may already have a `~/.pi/agent` that you may need to delete, in which case you could lose all your sessions and credentials. An alternative would be...
+
+```sh
+if [[ -d ~/.pi/agent ]]; then
+  # Clones in temporary directory
+  git clone https://github.com/alexandru/pi-config.git /tmp/pi-config
+  echo
+  # Sync all the files from the clone to your working dir
+  rsync -rcv /tmp/pi-config/ ~/.pi/agent/
+  # Doing some index cleanup
+  cd ~/.pi/agent
+  git pull
+  # Cleanup
+  rm -rf /tmp/pi-config
+else
+  git clone https://github.com/alexandru/pi-config.git ~/.pi/agent
+fi
 ```
 
 If the path is not standard, set `PI_CODING_AGENT_DIR` in `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
