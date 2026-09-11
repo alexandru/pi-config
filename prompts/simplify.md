@@ -1,6 +1,9 @@
 ---
-description: Simplify code using the simplify skill.
+description: Simplify code using the simplify skill
 argument-hint: "What should be simplified?"
 ---
 
-Load the `simplify` skill and any relevant project skills. Review and simplify this code in context: $@
+Load the `simplify` skill, and other skills that are relevant for this project and that may help.
+
+Use the `simplify` skill to review and simplify the code in context:
+$@

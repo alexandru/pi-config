@@ -1,0 +1,111 @@
+{
+  // ----------------------------------------------------------------------------------
+  // Pure OpenAI / ChatGPT
+  "p-openai": {
+    "model": "openai/gpt-5.6-terra",
+    "thinkingLevel": "high",
+    "agent": {
+      "Orchestrator": {
+        "model": "openai/gpt-5.6-terra",
+        "thinkingLevel": "high",
+      },
+      "Junior": {
+        "model": "openai/gpt-5.6-luna",
+        "thinkingLevel": "high",
+      },
+      "Explorer": {
+        "model": "openai/gpt-5.6-luna",
+        "thinkingLevel": "medium",
+      },
+      "Librarian": {
+        "model": "openai/gpt-5.6-luna",
+        "thinkingLevel": "medium",
+      },
+    },
+  },
+  // ----------------------------------------------------------------------------------
+  // OpenAI + DeepSeek
+  "p-mix-go": {
+    "extends": ["p-openai"],
+    "agent": {
+      "Junior": {
+        "model": "opencode-go/deepseek-v4.1-flash",
+        "thinkingLevel": "max",
+      },
+      "Explorer": {
+        "model": "opencode-go/deepseek-v4.1-flash",
+        "thinkingLevel": "low",
+      },
+      "Librarian": {
+        "model": "opencode-go/deepseek-v4.1-flash",
+        "thinkingLevel": "low",
+      },
+    },
+  },
+  // ----------------------------------------------------------------------------------
+  // Pure DeepSeek
+  "p-deepseek": {
+    "model": "opencode-go/deepseek-v4-pro",
+    "thinkingLevel": "max",
+    "agent": {
+      "Orchestrator": {
+        "model": "opencode-go/deepseek-v4.1-pro",
+        "thinkingLevel": "max",
+      },
+      "Junior": {
+        "model": "opencode-go/deepseek-v4.1-flash",
+        "thinkingLevel": "high",
+      },
+      "Explorer": {
+        "model": "opencode-go/deepseek-v4.1-flash",
+        "thinkingLevel": "low",
+      },
+      "Librarian": {
+        "model": "opencode-go/deepseek-v4.1-flash",
+        "thinkingLevel": "low",
+      },
+    },
+  },
+  // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // Presets meant for usage inside of a Docker container.
+  // Pi has no MCP support, so this base is intentionally empty; it mirrors the
+  // cross-harness preset structure and is the place for Pi work settings.
+  // ----------------------------------------------------------------------------------
+  "w-common": {
+    "common": true,
+  },
+  // ----------------------------------------------------------------------------------
+  // GitHub Copilot
+  "w-copilot": {
+    "extends": ["w-common"],
+    "model": "github-copilot/grok-4.6",
+    "thinkingLevel": "medium",
+    "agent": {
+      "Orchestrator": {
+        "model": "github-copilot/grok-4.6",
+        "thinkingLevel": "medium",
+      },
+      "Junior": {
+        "model": "github-copilot/gemini-3.7-flash",
+        "thinkingLevel": "high",
+      },
+      "Explorer": {
+        "model": "github-copilot/mai-code-1.1-flash",
+        "thinkingLevel": "high",
+      },
+      "Librarian": {
+        "model": "github-copilot/mai-code-1.1-flash",
+        "thinkingLevel": "high",
+      },
+    },
+  },
+  "w-openai": {
+    "extends": ["w-common", "p-openai"],
+  },
+  "w-mix-go": {
+    "extends": ["w-common", "p-mix-go"],
+  },
+  "w-deepseek": {
+    "extends": ["w-common", "p-deepseek"],
+  },
+}

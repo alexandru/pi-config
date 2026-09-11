@@ -1,61 +1,153 @@
-# Pi configuration
+# My Pi configuration
 
-Configuration for [Pi Coding Agent](https://pi.dev/). It provides the shared skills, prompt templates, and the Orchestrator/Explorer/Librarian/Junior role model used by the other configurations in this repository.
+Part of [alexandru/agents-config](https://github.com/alexandru/agents-config).
 
-## Install
+## Installation
 
-Install Pi, then point its agent directory at this folder:
+<details>
+<summary>STEP 1 — Clone the repository</summary>
+
+### Clone the repository
 
 ```sh
-npm install -g --ignore-scripts @earendil-works/pi-coding-agent
-export PI_CODING_AGENT_DIR="/absolute/path/to/agents-config/pi"
-pi
+git clone https://github.com/alexandru/pi-config.git ~/.pi/agent
 ```
 
-Add the `PI_CODING_AGENT_DIR` export to your shell profile to make it persistent. The bundled `subagent` extension starts child `pi` processes, so `pi` must remain on `PATH`.
+If the path is not standard, set `PI_CODING_AGENT_DIR` in `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
 
-The configuration has no `auth.json`, model settings, or other machine-specific state. Authenticate and choose models through Pi's normal mechanisms.
+```sh
+export PI_CODING_AGENT_DIR="/absolute/path/to/pi-config"
+```
 
-## Included resources
+The bundled `subagent` extension starts child `pi` processes, so `pi` must remain on `PATH`. It requires Pi 0.84.2 or later.
+</details>
 
-- `AGENTS.md`: Orchestrator instructions loaded globally by Pi.
-- `extensions/subagent/`: isolated, named Pi child agents. It supports one task, up to four parallel tasks, and chains whose later tasks use `{previous}`.
-- `agents/`: `Explorer`, `Librarian`, and `Junior` role definitions. Project-local agents are opt-in through `agentScope: "project"` or `"both"` and require interactive confirmation by default.
-- `prompts/`: `/grill-me`, `/handoff`, `/plan`, `/review`, and `/simplify`.
-- `skills/`: shared vendored skills. Refresh them manually with `make update-skills`, inspect the resulting diff, and keep only reviewed changes.
+<details>
+<summary>STEP 2 — Install the shared skills globally</summary>
 
-The subagent extension follows Pi's documented subagent extension example, adapted to use this repository's role names and the active model rather than provider-specific defaults. It requires Pi 0.84.2 or later.
+### Install the shared skills globally
 
-## Skills
+```sh
+cd ~/.pi/agent
+make install-skills
+```
 
-- `caveman`: token-efficient response modes with preserved technical accuracy.
-- `cellar`: query the APIs of JVM dependencies (Scala, Java).
-- `codebase-design`: deep-module design vocabulary and principles.
-- `diagnosing-bugs`: disciplined diagnosis for hard bugs and regressions.
-- `domain-modeling`: domain language and architectural decisions.
-- `grilling`: structured decision-tree interviews.
-- `handoff`: prepare context for another agent or session.
-- `resolving-merge-conflicts`: merge and rebase conflict resolution.
-- `simplify`: behavior-preserving code cleanup.
-- `tdd`: test-first development guidance.
+The skills are installed under `~/.agents/skills`, where Pi, OpenCode, Copilot CLI,
+and Codex can share them.
+</details>
 
-Initialize or refresh vendored skills:
+<details>
+<summary>STEP 3 — Choose a configuration preset</summary>
+
+### Choose a configuration preset
+
+The [pi-switch](./bin/pi-switch.js) utility is for quickly switching between multiple setting presets (e.g., multiple sets of models assigned to your agents).
+
+```sh
+# Example
+./bin/pi-switch w-openai
+```
+
+The switcher generates `settings.json` (Pi's configuration file) and `agents.models.json`
+(per-agent models for the `subagent` extension) from:
+
+- [pi.common.jsonc](./pi.common.jsonc)
+- [pi.presets.jsonc](./pi.presets.jsonc)
+
+**WARNING:** Must run `pi-switch` at least once, otherwise Pi's configuration is missing!
+</details>
+
+<details>
+<summary>STEP 4 — Install Cellar (optional)</summary>
+
+### Install Cellar (optional)
+
+[Cellar](https://github.com/VirtusLab/cellar) is useful for JVM dependency API lookup, and this repo's [Makefile](./Makefile) also installs its associated skill.
+
+Install [Coursier](https://get-coursier.io/docs/cli-installation) first:
+
+```sh
+## MacOS
+brew install coursier/formulas/coursier
+cs setup
+
+## Linux x86-64 (aka AMD64)
+curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" | gzip -d > cs
+
+## Linux ARM64
+curl -fL "https://github.com/VirtusLab/coursier-m1/releases/latest/download/cs-aarch64-pc-linux.gz" | gzip -d > cs
+```
+
+Then install Cellar via Coursier:
+
+```sh
+cs install --contrib cellar
+cellar --version
+
+# Disable telemetry
+cellar telemetry disable
+```
+</details>
+
+## Defined agents
+
+Main agents:
+
+- [Orchestrator](./agents/Orchestrator.md) (default agent): designs and implements changes; delegates evidence, research, and checks.
+
+Sub-agents:
+
+- [Junior](./agents/Junior.md): bounded execution, mechanical work.
+- [Explorer](./agents/Explorer.md): read-only codebase evidence gathering.
+- [Librarian](./agents/Librarian.md): read-only external documentation and dependency-source research.
+
+## Defined commands
+
+Commands use currently selected primary agent and do not override it.
+
+- `/plan`: prepare a detailed implementation plan and save it as a Markdown specification file.
+- `/grill-me`: stress-test a plan or decision.
+- `/grill-with-docs`: sharpen a plan or design while creating domain documentation.
+- `/handoff`: prepare context for another agent or session.
+- `/implement`: implement work from a specification or set of tickets.
+- `/improve-codebase-architecture`: find and work through codebase architecture improvements.
+- `/setup-matt-pocock-skills`: configure the repository for Matt Pocock's engineering skills.
+- `/simplify`: simplify code without changing its behavior.
+- `/to-spec`: turn the current conversation into a published specification.
+- `/to-tickets`: break a plan or specification into tracer-bullet tickets.
+
+## Shared skills
+
+- [alexandru/skills](https://github.com/alexandru/skills/)
+  - `code-review`: review changed code for bugs, structural problems, performance issues, and unintended behavior.
+  - `simplify`: behavior-preserving code cleanup.
+- [mattpocock/skills](https://github.com/mattpocock/skills/tree/v1.2.3)
+  - `codebase-design`: deep-module design vocabulary and principles.
+  - `diagnosing-bugs`: disciplined diagnosis for hard bugs and regressions.
+  - `domain-modeling`: domain language and architectural decisions.
+  - `grill-with-docs`: sharpen a plan or design while creating domain documentation.
+  - `grilling`: structured decision-tree interviews.
+  - `handoff`: prepare context for another agent or session.
+  - `implement`: implement work from a specification or set of tickets.
+  - `improve-codebase-architecture`: find and work through codebase architecture improvements.
+  - `resolving-merge-conflicts`: merge and rebase conflict resolution.
+  - `setup-matt-pocock-skills`: configure a repository for the engineering skills.
+  - `tdd`: test-first development guidance.
+  - `to-spec`: turn the current conversation into a published specification.
+  - `to-tickets`: break a plan or specification into tracer-bullet tickets.
+- [VirtusLab/cellar](https://github.com/VirtusLab/cellar/)
+  - `cellar`: query the APIs of JVM dependencies (Scala, Java).
+- [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
+  - `caveman`: token-efficient response modes with preserved technical accuracy.
+- [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack/skills/unslop)
+  - `unslop`: remove AI writing patterns and add a human voice.
+- [brave/brave-search-skills](https://github.com/brave/brave-search-skills)
+  - `web-search`: ranked web search with snippets and rich metadata.
+
+## Updating shared skills
 
 ```sh
 make update-skills
 ```
 
-For the `cellar` skill, install its CLI separately:
-
-```sh
-cs install --contrib cellar
-cellar --version
-cellar telemetry disable
-```
-
-## References
-
-- [Pi documentation](https://pi.dev/docs/latest)
-- [Pi extensions](https://pi.dev/docs/latest/extensions)
-- [Pi skills](https://pi.dev/docs/latest/skills)
-- [Pi subagent extension example](https://github.com/earendil-works/pi/tree/main/packages/coding-agent/examples/extensions/subagent)
+This reinstalls the configured global skill roster from its upstream sources.

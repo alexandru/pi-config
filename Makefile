@@ -1,19 +1,45 @@
 # Manual, reviewable skill updates. Never run automatically (no CI or hooks).
 
-.PHONY: update-skills
+MATTPOCOCK_SKILLS_TAG := v1.2.3
+# The skills CLI installs `-a pi` into ~/.pi/agent/skills, which
+# PI_CODING_AGENT_DIR setups do not read. Target the universal location
+# (~/.agents/skills) that Pi discovers natively and shares with the other harnesses.
+SKILLS_AGENT := universal
+SKILLS_INSTALL_FLAGS := -g -a $(SKILLS_AGENT) -y
 
-update-skills:
-	npx skills add https://github.com/alexandru/skills/ -y --skill \
+.PHONY: install-skills update-skills check-mattpocock-skills-tag
+
+check-mattpocock-skills-tag:
+	@latest=$$(git ls-remote --tags --refs --sort=-version:refname https://github.com/mattpocock/skills.git 'v*' 2>/dev/null | sed -n '1s#.*refs/tags/##p'); \
+	if [ -z "$$latest" ]; then \
+		echo "WARN: unable to check the latest mattpocock/skills tag"; \
+	elif [ "$$latest" != "$(MATTPOCOCK_SKILLS_TAG)" ]; then \
+		echo "WARN: mattpocock/skills is pinned to $(MATTPOCOCK_SKILLS_TAG); latest tag is $$latest"; \
+	fi
+
+install-skills:
+	npx skills add https://github.com/alexandru/skills/ $(SKILLS_INSTALL_FLAGS) --skill \
+		code-review \
 		simplify
-	npx skills add https://github.com/mattpocock/skills -y --skill \
+	npx skills add https://github.com/mattpocock/skills/tree/$(MATTPOCOCK_SKILLS_TAG) $(SKILLS_INSTALL_FLAGS) --skill \
 		codebase-design \
 		diagnosing-bugs \
 		domain-modeling \
+		grill-with-docs \
 		grilling \
 		handoff \
+		implement \
+		improve-codebase-architecture \
 		resolving-merge-conflicts \
-		tdd
-	npx skills add https://github.com/VirtusLab/cellar/ -y
-	npx skills add https://github.com/JuliusBrussee/caveman -y --skill caveman
-	@echo "---"
-	@echo "Review every updated skill before committing."
+		setup-matt-pocock-skills \
+		tdd \
+		to-spec \
+		to-tickets
+	npx skills add https://github.com/VirtusLab/cellar/ $(SKILLS_INSTALL_FLAGS)
+	npx skills add https://github.com/JuliusBrussee/caveman $(SKILLS_INSTALL_FLAGS) --skill caveman
+	npx skills add https://github.com/cursor/plugins/tree/main/pstack/skills/unslop $(SKILLS_INSTALL_FLAGS) --skill unslop
+	npx skills add https://github.com/brave/brave-search-skills $(SKILLS_INSTALL_FLAGS) --skill web-search
+	@echo "Shared skills installed in ~/.agents/skills."
+
+update-skills: check-mattpocock-skills-tag
+	$(MAKE) install-skills

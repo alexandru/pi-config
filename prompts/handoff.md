@@ -1,6 +1,12 @@
 ---
-description: Write a compact handoff document for a fresh session.
+description: Compact the current conversation for another agent or session.
 argument-hint: "What will the next session focus on?"
 ---
 
-Load the `handoff` skill and follow it exactly. Input: $@
+Run a `handoff` session (load the skill named `handoff`). Save the file in `./.plans/`.
+
+---
+
+Input: $@
+
+---

@@ -40,6 +40,31 @@ type Result = {
 	exitCode: number;
 };
 
+type AgentModelConfig = {
+	model?: string;
+	thinkingLevel?: string;
+};
+
+function loadAgentModels(): Record<string, AgentModelConfig> {
+	try {
+		const content = fs.readFileSync(path.join(getAgentDir(), "agents.models.json"), "utf8");
+		const parsed = JSON.parse(content) as unknown;
+		if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+		const models: Record<string, AgentModelConfig> = {};
+		for (const [name, value] of Object.entries(parsed)) {
+			if (!value || typeof value !== "object" || Array.isArray(value)) continue;
+			const entry = value as { model?: unknown; thinkingLevel?: unknown };
+			models[name] = {
+				model: typeof entry.model === "string" ? entry.model : undefined,
+				thinkingLevel: typeof entry.thinkingLevel === "string" ? entry.thinkingLevel : undefined,
+			};
+		}
+		return models;
+	} catch {
+		return {};
+	}
+}
+
 function invocation(args: string[]): { command: string; args: string[] } {
 	const currentScript = process.argv[1];
 	if (currentScript && !currentScript.startsWith("/$bunfs/root/") && fs.existsSync(currentScript)) {
@@ -62,7 +87,8 @@ async function runAgent(
 	agent: AgentConfig | undefined,
 	task: string,
 	cwd: string,
-	model: string | undefined,
+	defaultModel: string | undefined,
+	preset: AgentModelConfig | undefined,
 	signal: AbortSignal | undefined,
 ): Promise<Result> {
 	if (!agent) {
@@ -74,7 +100,9 @@ async function runAgent(
 	try {
 		await fs.promises.writeFile(promptPath, agent.systemPrompt, { encoding: "utf8", mode: 0o600 });
 		const args = ["--mode", "json", "-p", "--no-session", "--append-system-prompt", promptPath];
+		const model = agent.model ?? preset?.model ?? defaultModel;
 		if (model) args.push("--model", model);
+		if (preset?.thinkingLevel) args.push("--thinking", preset.thinkingLevel);
 		if (agent.tools?.length) args.push("--tools", agent.tools.join(","));
 		args.push(`Task: ${task}`);
 
@@ -132,7 +160,7 @@ export default function (pi: ExtensionAPI) {
 		name: "subagent",
 		label: "Subagent",
 		description: [
-			"Delegate a bounded task to Explorer, Librarian, or Junior in an isolated Pi process.",
+			"Delegate a bounded task to Orchestrator, Junior, Explorer, or Librarian in an isolated Pi process.",
 			"Use single mode, independent parallel tasks, or an ordered chain using {previous}.",
 			`User agents are loaded from ${path.join(getAgentDir(), "agents")}; project agents are opt-in.`,
 		].join(" "),
@@ -143,6 +171,7 @@ export default function (pi: ExtensionAPI) {
 			const agents = discoverAgents(ctx.cwd, scope);
 			const lookup = (name: string) => agents.find((agent) => agent.name === name);
 			const model = ctx.model ? `${ctx.model.provider}/${ctx.model.id}` : undefined;
+			const agentModels = loadAgentModels();
 			const single = params.agent && params.task ? { agent: params.agent, task: params.task, cwd: params.cwd } : undefined;
 			const modes = Number(Boolean(single)) + Number((params.tasks?.length ?? 0) > 0) + Number((params.chain?.length ?? 0) > 0);
 			if (modes !== 1) {
@@ -166,7 +195,7 @@ export default function (pi: ExtensionAPI) {
 			}
 
 			if (single) {
-				const result = await runAgent(lookup(single.agent), single.task, single.cwd ?? ctx.cwd, model, signal);
+				const result = await runAgent(lookup(single.agent), single.task, single.cwd ?? ctx.cwd, model, agentModels[single.agent], signal);
 				return { content: [{ type: "text", text: formatResult(result) }], details: { scope, results: [result] }, isError: result.exitCode !== 0 };
 			}
 
@@ -174,7 +203,7 @@ export default function (pi: ExtensionAPI) {
 				if (params.tasks.length > MAX_PARALLEL_TASKS) {
 					return { content: [{ type: "text", text: `At most ${MAX_PARALLEL_TASKS} parallel tasks are allowed.` }], isError: true };
 				}
-				const results = await Promise.all(params.tasks.map((item) => runAgent(lookup(item.agent), item.task, item.cwd ?? ctx.cwd, model, signal)));
+				const results = await Promise.all(params.tasks.map((item) => runAgent(lookup(item.agent), item.task, item.cwd ?? ctx.cwd, model, agentModels[item.agent], signal)));
 				return {
 					content: [{ type: "text", text: results.map(formatResult).join("\n\n---\n\n") }],
 					details: { scope, results },
@@ -186,7 +215,7 @@ export default function (pi: ExtensionAPI) {
 			let previous = "";
 			for (const item of params.chain ?? []) {
 				const task = item.task.replaceAll("{previous}", previous);
-				const result = await runAgent(lookup(item.agent), task, item.cwd ?? ctx.cwd, model, signal);
+				const result = await runAgent(lookup(item.agent), task, item.cwd ?? ctx.cwd, model, agentModels[item.agent], signal);
 				results.push(result);
 				if (result.exitCode !== 0) break;
 				previous = result.output;
