@@ -185,6 +185,12 @@ export default function (pi: ExtensionAPI) {
 				...(params.tasks?.map((item) => item.agent) ?? []),
 				...(params.chain?.map((item) => item.agent) ?? []),
 			]);
+			if (requestedNames.has("Solo")) {
+				return {
+					content: [{ type: "text", text: "Solo works alone and cannot run as a subagent." }],
+					isError: true,
+				};
+			}
 			const projectAgents = [...requestedNames].map(lookup).filter((agent) => agent?.source === "project");
 			if (projectAgents.length > 0 && params.confirmProjectAgents !== false && ctx.hasUI) {
 				const approved = await ctx.ui.confirm(

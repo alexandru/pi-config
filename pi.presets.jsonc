@@ -9,6 +9,10 @@
         "model": "openai/gpt-5.6-terra",
         "thinkingLevel": "high",
       },
+      "Solo": {
+        "model": "openai/gpt-5.6-terra",
+        "thinkingLevel": "high",
+      },
       "Junior": {
         "model": "openai/gpt-5.6-luna",
         "thinkingLevel": "high",
@@ -52,6 +56,10 @@
         "model": "opencode-go/deepseek-v4.1-pro",
         "thinkingLevel": "max",
       },
+      "Solo": {
+        "model": "opencode-go/deepseek-v4.1-pro",
+        "thinkingLevel": "max",
+      },
       "Junior": {
         "model": "opencode-go/deepseek-v4.1-flash",
         "thinkingLevel": "high",
@@ -82,6 +90,10 @@
     "thinkingLevel": "medium",
     "agent": {
       "Orchestrator": {
+        "model": "github-copilot/grok-4.6",
+        "thinkingLevel": "medium",
+      },
+      "Solo": {
         "model": "github-copilot/grok-4.6",
         "thinkingLevel": "medium",
       },
