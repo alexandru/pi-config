@@ -2,16 +2,16 @@
   // ----------------------------------------------------------------------------------
   // Pure OpenAI / ChatGPT
   "p-openai": {
-    "model": "openai/gpt-5.6-terra",
-    "thinkingLevel": "high",
+    "model": "openai/gpt-5.6-sol",
+    "thinkingLevel": "medium",
     "agent": {
       "Orchestrator": {
-        "model": "openai/gpt-5.6-terra",
-        "thinkingLevel": "high",
+        "model": "openai/gpt-5.6-sol",
+        "thinkingLevel": "medium",
       },
       "Solo": {
-        "model": "openai/gpt-5.6-terra",
-        "thinkingLevel": "high",
+        "model": "openai/gpt-5.6-sol",
+        "thinkingLevel": "medium",
       },
       "Junior": {
         "model": "openai/gpt-5.6-luna",
