@@ -2,28 +2,28 @@
   // ----------------------------------------------------------------------------------
   // Pure OpenAI / ChatGPT
   "p-openai": {
-    "model": "openai/gpt-5.6-sol",
-    "thinkingLevel": "medium",
+    "model": "openai/gpt-6-sol",
+    "thinkingLevel": "high",
     "agent": {
       "Orchestrator": {
-        "model": "openai/gpt-5.6-sol",
-        "thinkingLevel": "medium",
-      },
-      "Solo": {
-        "model": "openai/gpt-5.6-sol",
-        "thinkingLevel": "medium",
-      },
-      "Junior": {
-        "model": "openai/gpt-5.6-luna",
+        "model": "openai/gpt-6-sol",
         "thinkingLevel": "high",
       },
+      "Solo": {
+        "model": "openai/gpt-6-sol",
+        "thinkingLevel": "high",
+      },
+      "Junior": {
+        "model": "openai/gpt-6-luna",
+        "thinkingLevel": "xhigh",
+      },
       "Explorer": {
-        "model": "openai/gpt-5.6-luna",
-        "thinkingLevel": "medium",
+        "model": "openai/gpt-6-luna",
+        "thinkingLevel": "high",
       },
       "Librarian": {
-        "model": "openai/gpt-5.6-luna",
-        "thinkingLevel": "medium",
+        "model": "openai/gpt-6-luna",
+        "thinkingLevel": "high",
       },
     },
   },
