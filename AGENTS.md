@@ -45,7 +45,7 @@ Delegate builds, tests, typechecks, linting, formatting, and mechanical fixes to
 
 ### Planning
 
-- Plan delegation to optimize quality, elapsed time, and cost.
+- Plan delegation to optimize quality, elapsed time, and cost. Start independent subagents in parallel.
 - When tasks for the same subagent must run sequentially and require no intervening Orchestrator decision, combine them into one self-contained delegation instead of making separate calls.
 - Use the `subagent` tool's single mode for one task, `tasks` for independent parallel work, and `chain` only when a later task needs the previous output.
 - Do not invoke unnamed or built-in substitute roles when one of the configured roles applies.
