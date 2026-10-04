@@ -133,6 +133,7 @@ Sub-agents:
 - `/improve-codebase-architecture`: find and work through codebase architecture improvements.
 - `/setup-matt-pocock-skills`: configure the repository for Matt Pocock's engineering skills.
 - `/simplify`: simplify code without changing its behavior.
+- `/teach`: teach the user a topic through a stateful learning workspace.
 - `/to-spec`: turn the current conversation into a published specification.
 - `/to-tickets`: break a plan or specification into tracer-bullet tickets.
 
@@ -154,6 +155,7 @@ Sub-agents:
   - `resolving-merge-conflicts`: merge and rebase conflict resolution.
   - `setup-matt-pocock-skills`: configure a repository for the engineering skills.
   - `tdd`: test-first development guidance.
+  - `teach`: teach the user a topic through a stateful learning workspace with lessons and reference documents.
   - `to-spec`: turn the current conversation into a published specification.
   - `to-tickets`: break a plan or specification into tracer-bullet tickets.
 - [VirtusLab/cellar](https://github.com/VirtusLab/cellar/)
