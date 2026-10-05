@@ -1,6 +1,6 @@
 # Manual, reviewable skill updates. Never run automatically (no CI or hooks).
 
-MATTPOCOCK_SKILLS_TAG := v1.2.3
+MATTPOCOCK_SKILLS_TAG := v1.3.1
 # The skills CLI installs `-a pi` into ~/.pi/agent/skills, which
 # PI_CODING_AGENT_DIR setups do not read. Target the universal location
 # (~/.agents/skills) that Pi discovers natively and shares with the other harnesses.
@@ -31,7 +31,6 @@ install-skills:
 		handoff \
 		implement \
 		improve-codebase-architecture \
-		resolving-merge-conflicts \
 		setup-matt-pocock-skills \
 		tdd \
 		teach \
