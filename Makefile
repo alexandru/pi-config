@@ -1,5 +1,6 @@
 # Manual, reviewable skill updates. Never run automatically (no CI or hooks).
 
+ALEXANDRU_SKILLS_TAG := v9.0.0
 MATTPOCOCK_SKILLS_TAG := v1.3.1
 # The skills CLI installs `-a pi` into ~/.pi/agent/skills, which
 # PI_CODING_AGENT_DIR setups do not read. Target the universal location
@@ -18,10 +19,11 @@ check-mattpocock-skills-tag:
 	fi
 
 install-skills:
-	npx skills add https://github.com/alexandru/skills/ $(SKILLS_INSTALL_FLAGS) --skill \
+	npx skills add https://github.com/alexandru/skills/tree/$(ALEXANDRU_SKILLS_TAG) $(SKILLS_INSTALL_FLAGS) --skill \
 		code-review \
 		code-reviewing \
-		simplify
+		simplify \
+		simplifying
 	npx skills add https://github.com/mattpocock/skills/tree/$(MATTPOCOCK_SKILLS_TAG) $(SKILLS_INSTALL_FLAGS) --skill \
 		codebase-design \
 		diagnosing-bugs \
