@@ -2,16 +2,16 @@
   // ----------------------------------------------------------------------------------
   // Pure OpenAI / ChatGPT
   "p-openai": {
-    "model": "openai/gpt-6-sol",
-    "thinkingLevel": "high",
+    "model": "openai/gpt-6.1-sol",
+    "thinkingLevel": "medium",
     "agent": {
       "Orchestrator": {
-        "model": "openai/gpt-6-sol",
-        "thinkingLevel": "high",
+        "model": "openai/gpt-6.1-sol",
+        "thinkingLevel": "medium",
       },
       "Solo": {
-        "model": "openai/gpt-6-sol",
-        "thinkingLevel": "high",
+        "model": "openai/gpt-6.1-sol",
+        "thinkingLevel": "medium",
       },
       "Junior": {
         "model": "openai/gpt-6-luna",
@@ -49,15 +49,15 @@
   // ----------------------------------------------------------------------------------
   // Pure DeepSeek
   "p-deepseek": {
-    "model": "opencode-go/deepseek-v4-pro",
+    "model": "opencode-go/deepseek-v4.1-flash",
     "thinkingLevel": "max",
     "agent": {
       "Orchestrator": {
-        "model": "opencode-go/deepseek-v4.1-pro",
+        "model": "opencode-go/deepseek-v4.1-flash",
         "thinkingLevel": "max",
       },
       "Solo": {
-        "model": "opencode-go/deepseek-v4.1-pro",
+        "model": "opencode-go/deepseek-v4.1-flash",
         "thinkingLevel": "max",
       },
       "Junior": {
