@@ -50,12 +50,12 @@ The bundled `subagent` extension starts child `pi` processes, so `pi` must remai
 </details>
 
 <details>
-<summary>STEP 2 — Install the shared skills globally</summary>
+<summary>STEP 2 — Install dependencies</summary>
 
-### Install the shared skills globally
+### Install dependencies
 
 ```sh
-cd ~/.pi/agent && make install-skills
+cd ~/.pi/agent && make
 ```
 
 The skills are installed under `~/.agents/skills`, where Pi, OpenCode, Copilot CLI,
@@ -63,9 +63,9 @@ and Codex can share them.
 </details>
 
 <details>
-<summary>STEP 3 — Choose a configuration preset</summary>
+<summary>STEP 3 — Choose a configuration preset (optional)</summary>
 
-### Choose a configuration preset
+### Choose a configuration preset (optional)
 
 The [pi-switch](./bin/pi-switch.py) utility is for quickly switching between multiple setting presets (e.g., multiple sets of models assigned to your agents). It's built with Python 🐍, so you need [pipx](https://pipx.pypa.io/) installed (`make install-pipx`).
 
@@ -79,8 +79,6 @@ The switcher generates `settings.json` (Pi's configuration file) and `agents.mod
 
 - [pi.common.jsonc](./pi.common.jsonc)
 - [pi.presets.jsonc](./pi.presets.jsonc)
-
-**WARNING:** Must run `pi-switch` at least once, otherwise Pi's configuration is missing!
 </details>
 
 <details>
