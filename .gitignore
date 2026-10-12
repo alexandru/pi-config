@@ -16,3 +16,6 @@
 node_modules/
 package-lock.json
 *.log
+.mypy_cache
+.ruff_cache
+__pycache__
