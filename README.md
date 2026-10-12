@@ -12,26 +12,32 @@ Part of [alexandru/agents-config](https://github.com/alexandru/agents-config).
 **WARN** — This is for a fresh Pi installation (no history):
 
 ```sh
-git clone https://github.com/alexandru/pi-config.git ~/.pi/agent
+git clone https://github.com/alexandru/pi-config.git ~/.pi/agent &&
+  git -C ~/.pi/agent config --local status.showUntrackedFiles no
 ```
 
 **WARN:** This is Pi's working directory, so you may already have a `~/.pi/agent` that you may need to delete, in which case you could lose all your sessions and credentials. An alternative would be...
 
-```sh
-if [[ -d ~/.pi/agent ]]; then
-  # Clones in temporary directory
-  git clone https://github.com/alexandru/pi-config.git /tmp/pi-config
-  echo
-  # Sync all the files from the clone to your working dir
-  rsync -rcv /tmp/pi-config/ ~/.pi/agent/
-  # Doing some index cleanup
-  cd ~/.pi/agent
-  git pull
-  # Cleanup
-  rm -rf /tmp/pi-config
-else
-  git clone https://github.com/alexandru/pi-config.git ~/.pi/agent
-fi
+```bash
+(
+  set -e
+  if [[ -d ~/.pi/agent ]]; then
+    # Clones in temporary directory
+    git clone https://github.com/alexandru/pi-config.git /tmp/pi-config
+    echo
+    # Sync all the files from the clone to your working dir
+    rsync -rcv /tmp/pi-config/ ~/.pi/agent/
+    # Doing some index cleanup
+    cd ~/.pi/agent
+    git pull
+    git config --local status.showUntrackedFiles no
+    # Cleanup
+    rm -rf /tmp/pi-config
+  else
+    git clone https://github.com/alexandru/pi-config.git ~/.pi/agent
+    git -C ~/.pi/agent config --local status.showUntrackedFiles no
+  fi
+)
 ```
 
 If the path is not standard, set `PI_CODING_AGENT_DIR` in `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
@@ -49,8 +55,7 @@ The bundled `subagent` extension starts child `pi` processes, so `pi` must remai
 ### Install the shared skills globally
 
 ```sh
-cd ~/.pi/agent
-make install-skills
+cd ~/.pi/agent && make install-skills
 ```
 
 The skills are installed under `~/.agents/skills`, where Pi, OpenCode, Copilot CLI,
@@ -87,26 +92,38 @@ The switcher generates `settings.json` (Pi's configuration file) and `agents.mod
 
 Install [Coursier](https://get-coursier.io/docs/cli-installation) first:
 
-```sh
+```bash
 ## MacOS
-brew install coursier/formulas/coursier
-cs setup
+brew install coursier/formulas/coursier && cs setup
+```
 
-## Linux x86-64 (aka AMD64)
-curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" | gzip -d > cs
+```bash
+(
+  set -eo pipefail
+  ## Linux x86-64 (aka AMD64)
+  curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" | gzip -d > cs
+)
+```
 
-## Linux ARM64
-curl -fL "https://github.com/VirtusLab/coursier-m1/releases/latest/download/cs-aarch64-pc-linux.gz" | gzip -d > cs
+```bash
+(
+  set -eo pipefail
+  ## Linux ARM64
+  curl -fL "https://github.com/VirtusLab/coursier-m1/releases/latest/download/cs-aarch64-pc-linux.gz" | gzip -d > cs
+)
 ```
 
 Then install Cellar via Coursier:
 
-```sh
-cs install --contrib cellar
-cellar --version
+```bash
+(
+  set -e
+  cs install --contrib cellar
+  cellar --version
 
-# Disable telemetry
-cellar telemetry disable
+  # Disable telemetry
+  cellar telemetry disable
+)
 ```
 </details>
 
