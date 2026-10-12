@@ -217,8 +217,6 @@ def print_help(presets: JsonObject) -> None:
     print(f"  Merges {COMMON_FILE} with the selected preset")
     print(f"  from {PRESETS_FILE} to generate {SETTINGS_FILE} and")
     print(f"  {AGENT_MODELS_FILE}")
-    print("  Presets marked common: true are hidden from this list")
-    print("  and may be inherited with extends.")
 
 
 def string_field(config: Json, key: str, default: str) -> str:
