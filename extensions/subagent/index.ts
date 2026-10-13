@@ -160,7 +160,7 @@ export default function (pi: ExtensionAPI) {
 		name: "subagent",
 		label: "Subagent",
 		description: [
-			"Delegate a bounded task to Orchestrator, Junior, Explorer, or Librarian in an isolated Pi process.",
+			"Delegate a bounded task to Analyst, Junior, Explorer, or Librarian in an isolated Pi process.",
 			"Use single mode, independent parallel tasks, or an ordered chain using {previous}.",
 			`User agents are loaded from ${path.join(getAgentDir(), "agents")}; project agents are opt-in.`,
 		].join(" "),
@@ -188,6 +188,12 @@ export default function (pi: ExtensionAPI) {
 			if (requestedNames.has("Solo")) {
 				return {
 					content: [{ type: "text", text: "Solo works alone and cannot run as a subagent." }],
+					isError: true,
+				};
+			}
+			if (requestedNames.has("Orchestrator")) {
+				return {
+					content: [{ type: "text", text: "Orchestrator is a primary agent and cannot run as a subagent." }],
 					isError: true,
 				};
 			}
