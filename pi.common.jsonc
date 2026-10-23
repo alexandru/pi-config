@@ -1,8 +1,8 @@
 {
   // ----------------------------------------------------------------------------------
   // Shared Pi settings. Model selections come from the selected preset.
-  // The Orchestrator must not run shell commands; subagents receive their own
-  // `--tools` allowlist from agents/*.md and are not affected by this setting.
+  // Subagents receive their own `--tools` allowlist from agents/*.md and are
+  // not affected by this setting.
   "defaultTools": [
     "read",
     "grep",
@@ -10,5 +10,6 @@
     "ls",
     "edit",
     "write",
+    "bash",
   ],
 }

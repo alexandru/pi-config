@@ -9,44 +9,20 @@ Part of [alexandru/agents-config](https://github.com/alexandru/agents-config).
 
 ### Clone the repository
 
-**WARN** — This is for a fresh Pi installation (no history):
-
 ```sh
 git clone https://github.com/alexandru/pi-config.git ~/.pi/agent &&
   git -C ~/.pi/agent config --local status.showUntrackedFiles no
 ```
 
-**WARN:** This is Pi's working directory, so you may already have a `~/.pi/agent` that you may need to delete, in which case you could lose all your sessions and credentials. An alternative would be...
-
-```bash
-(
-  set -e
-  if [[ -d ~/.pi/agent ]]; then
-    # Clones in temporary directory
-    git clone https://github.com/alexandru/pi-config.git /tmp/pi-config
-    echo
-    # Sync all the files from the clone to your working dir
-    rsync -rcv /tmp/pi-config/ ~/.pi/agent/
-    # Doing some index cleanup
-    cd ~/.pi/agent
-    git pull
-    git config --local status.showUntrackedFiles no
-    # Cleanup
-    rm -rf /tmp/pi-config
-  else
-    git clone https://github.com/alexandru/pi-config.git ~/.pi/agent
-    git -C ~/.pi/agent config --local status.showUntrackedFiles no
-  fi
-)
-```
-
-If the path is not standard, set `PI_CODING_AGENT_DIR` in `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
+**WARN** — this is Pi's working directory, so an existing `~/.pi/agent` may hold
+your sessions and credentials; back it up first, or clone somewhere else and set
+`PI_CODING_AGENT_DIR` in `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
 
 ```sh
 export PI_CODING_AGENT_DIR="/absolute/path/to/pi-config"
 ```
 
-The bundled `subagent` extension starts child `pi` processes, so `pi` must remain on `PATH`. It requires Pi 0.84.2 or later.
+The bundled `subagent` extension starts child `pi` processes, so `pi` must remain on `PATH`.
 </details>
 
 <details>
@@ -59,7 +35,8 @@ cd ~/.pi/agent && make
 ```
 
 The skills are installed under `~/.agents/skills`, where Pi, OpenCode, Copilot CLI,
-and Codex can share them.
+and Codex can share them. Web search goes through the Brave Search MCP server; set
+`BRAVE_SEARCH_API_KEY` in your environment.
 </details>
 
 <details>
@@ -86,80 +63,43 @@ The switcher generates `settings.json` (Pi's configuration file) and `agents.mod
 
 ### Install Cellar (optional)
 
-[Cellar](https://github.com/VirtusLab/cellar) is useful for JVM dependency API lookup, and this repo's [Makefile](./Makefile) also installs its associated skill.
-
-Install [Coursier](https://get-coursier.io/docs/cli-installation) first:
-
-```bash
-## MacOS
-brew install coursier/formulas/coursier && cs setup
-```
-
-```bash
-(
-  set -eo pipefail
-  ## Linux x86-64 (aka AMD64)
-  curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" | gzip -d > cs
-)
-```
-
-```bash
-(
-  set -eo pipefail
-  ## Linux ARM64
-  curl -fL "https://github.com/VirtusLab/coursier-m1/releases/latest/download/cs-aarch64-pc-linux.gz" | gzip -d > cs
-)
-```
-
-Then install Cellar via Coursier:
-
-```bash
-(
-  set -e
-  cs install --contrib cellar
-  cellar --version
-
-  # Disable telemetry
-  cellar telemetry disable
-)
-```
+[Cellar](https://github.com/VirtusLab/cellar) is useful for JVM dependency API lookup. The default `make` target installs it and its associated skill.
 </details>
 
 ## Defined agents
 
 Main agents:
 
-- [Orchestrator](./AGENTS.md) (default agent): designs and implements changes; delegates judgment, evidence, research, and checks.
+- [Orchestrator](./AGENTS.md) (default agent): designs and implements changes; delegates evidence, research, and checks.
 - [Solo](./agents/Solo.md): designs and implements changes with direct tool use and no delegation.
 
 Sub-agents:
 
-- [Analyst](./agents/Analyst.md): reads code and evidence, exercises judgment, and advises without making changes.
 - [Junior](./agents/Junior.md): bounded execution, mechanical work.
 - [Explorer](./agents/Explorer.md): read-only codebase evidence gathering.
 - [Librarian](./agents/Librarian.md): read-only external documentation and dependency-source research.
 
 ## Defined commands
 
-- `/plan`: prepare a detailed implementation plan and save it as a Markdown specification file.
 - `/grill-me`: stress-test a plan or decision.
 - `/grill-with-docs`: sharpen a plan or design while creating domain documentation.
 - `/handoff`: prepare context for another agent or session.
 - `/implement`: implement work from a specification or set of tickets.
 - `/improve-codebase-architecture`: find and work through codebase architecture improvements.
+- `/code-refine`: refine code without changing its behavior.
+- `/review`: review uncommitted changes, a commit, a branch, or a pull request.
 - `/setup-matt-pocock-skills`: configure the repository for Matt Pocock's engineering skills.
-- `/simplify`: simplify code without changing its behavior.
 - `/teach`: teach the user a topic through a stateful learning workspace.
 - `/to-spec`: turn the current conversation into a published specification.
 - `/to-tickets`: break a plan or specification into tracer-bullet tickets.
 
 ## Shared skills
 
-- [alexandru/skills](https://github.com/alexandru/skills/tree/v10.2.0)
+- [alexandru/skills](https://github.com/alexandru/skills/tree/v12.0.0)
   - `code-review`: user-invoked adapter for `code-reviewing`.
   - `code-reviewing`: review changed code for bugs, structural problems, performance issues, and unintended behavior.
-  - `simplicity`: simplification lenses of constraints, simplicity, and parametricity.
-  - `simplify`: behavior-preserving simplification using the `simplicity` lenses.
+  - `code-refine`: behavior-preserving refinement using the `code-refinements` lenses.
+  - `code-refinements`: refinement lenses of constraints, simplicity, and parametricity.
 - [mattpocock/skills](https://github.com/mattpocock/skills/tree/v1.3.1)
   - `codebase-design`: deep-module design vocabulary and principles.
   - `diagnosing-bugs`: disciplined diagnosis for hard bugs and regressions.
@@ -179,10 +119,6 @@ Sub-agents:
   - `cellar`: query the APIs of JVM dependencies (Scala, Java).
 - [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
   - `caveman`: token-efficient response modes with preserved technical accuracy.
-- [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack/skills/unslop)
-  - `unslop`: remove AI writing patterns and add a human voice.
-- [brave/brave-search-skills](https://github.com/brave/brave-search-skills)
-  - `web-search`: ranked web search with snippets and rich metadata.
 
 ## Updating shared skills
 

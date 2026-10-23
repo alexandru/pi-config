@@ -160,7 +160,7 @@ export default function (pi: ExtensionAPI) {
 		name: "subagent",
 		label: "Subagent",
 		description: [
-			"Delegate a bounded task to Analyst, Junior, Explorer, or Librarian in an isolated Pi process.",
+			"Delegate a bounded task to Junior, Explorer, or Librarian in an isolated Pi process.",
 			"Use single mode, independent parallel tasks, or an ordered chain using {previous}.",
 			`User agents are loaded from ${path.join(getAgentDir(), "agents")}; project agents are opt-in.`,
 		].join(" "),

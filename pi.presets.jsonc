@@ -14,10 +14,6 @@
         "model": "openai/gpt-6.1-sol",
         "thinkingLevel": "medium",
       },
-      "Analyst": {
-        "model": "openai/gpt-6.1-sol",
-        "thinkingLevel": "high",
-      },
       "Junior": {
         "model": "openai/gpt-6-luna",
         "thinkingLevel": "xhigh",
@@ -33,21 +29,21 @@
     },
   },
   // ----------------------------------------------------------------------------------
-  // OpenAI + DeepSeek
-  "p-mix-go": {
+  // OpenAI + OpenCode Go (DeepSeek)
+  "p-openai-go": {
     "extends": ["p-openai"],
     "agent": {
       "Junior": {
         "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "max",
+        "thinkingLevel": "high",
       },
       "Explorer": {
         "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "low",
+        "thinkingLevel": "high",
       },
       "Librarian": {
         "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "low",
+        "thinkingLevel": "high",
       },
     },
   },
@@ -61,10 +57,6 @@
         "model": "opencode-go/deepseek-v4.1-flash",
         "thinkingLevel": "max",
       },
-      "Analyst": {
-        "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "max",
-      },
       "Junior": {
         "model": "opencode-go/deepseek-v4.1-flash",
         "thinkingLevel": "high",
@@ -79,10 +71,34 @@
       },
     },
   },
+  // ----------------------------------------------------------------------------------
+  // Mistral / GLM
+  "p-mistral-glm": {
+    "model": "mistral/zai-glm-5-3",
+    "thinkingLevel": "max",
+    "agent": {
+      "Solo": {
+        "model": "mistral/zai-glm-5-3",
+        "thinkingLevel": "max",
+      },
+      "Junior": {
+        "model": "mistral/zai-glm-5-3-flash",
+        "thinkingLevel": "max",
+      },
+      "Explorer": {
+        "model": "mistral/zai-glm-5-3-flash",
+        "thinkingLevel": "high",
+      },
+      "Librarian": {
+        "model": "mistral/zai-glm-5-3-flash",
+        "thinkingLevel": "high",
+      },
+    },
+  },
   // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   // Presets meant for usage inside of a Docker container.
-  // Pi has no MCP support, so this base is intentionally empty; it mirrors the
-  // cross-harness preset structure and is the place for Pi work settings.
+  // Pi's MCP servers are local commands, so they need no Docker-specific
+  // rewrites; this base mirrors the cross-harness preset structure.
   // ----------------------------------------------------------------------------------
   "w-common": {
     "common": true,
@@ -91,36 +107,33 @@
   // GitHub Copilot
   "w-copilot": {
     "extends": ["w-common"],
-    "model": "github-copilot/grok-4.6",
+    "model": "github-copilot/claude-sonnet-5",
     "thinkingLevel": "medium",
     "agent": {
       "Solo": {
-        "model": "github-copilot/grok-4.6",
+        "model": "github-copilot/claude-sonnet-5",
         "thinkingLevel": "medium",
       },
-      "Analyst": {
-        "model": "github-copilot/grok-4.6",
-        "thinkingLevel": "high",
-      },
       "Junior": {
-        "model": "github-copilot/gemini-3.7-flash",
-        "thinkingLevel": "high",
+        "model": "github-copilot/gpt-5.3-codex",
+        "thinkingLevel": "medium",
       },
       "Explorer": {
-        "model": "github-copilot/mai-code-1.1-flash",
-        "thinkingLevel": "high",
+        "model": "github-copilot/claude-haiku-4.5",
       },
       "Librarian": {
-        "model": "github-copilot/mai-code-1.1-flash",
-        "thinkingLevel": "high",
+        "model": "github-copilot/claude-haiku-4.5",
       },
     },
   },
   "w-openai": {
     "extends": ["w-common", "p-openai"],
   },
-  "w-mix-go": {
-    "extends": ["w-common", "p-mix-go"],
+  "w-openai-go": {
+    "extends": ["w-common", "p-openai-go"],
+  },
+  "w-mistral-glm": {
+    "extends": ["w-common", "p-mistral-glm"],
   },
   "w-deepseek": {
     "extends": ["w-common", "p-deepseek"],
