@@ -134,6 +134,10 @@ class ToAgentModelsTest(unittest.TestCase):
                     "thinkingLevel": "high",
                     "disabled": True,
                 },
+                "Analyst": {
+                    "model": "openai/gpt-5.6-sol",
+                    "thinkingLevel": "high",
+                },
                 "Junior": {"model": 7},
                 "Explorer": "not-an-object",
                 "Librarian": {},
@@ -146,6 +150,7 @@ class ToAgentModelsTest(unittest.TestCase):
             agent_models,
             {
                 "Solo": {"model": "openai/gpt-5.6-sol", "thinkingLevel": "high"},
+                "Analyst": {"model": "openai/gpt-5.6-sol", "thinkingLevel": "high"},
                 "Junior": {},
                 "Librarian": {},
             },
