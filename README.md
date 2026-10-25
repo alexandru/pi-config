@@ -71,7 +71,7 @@ The switcher generates `settings.json` (Pi's configuration file) and `agents.mod
 Main agents:
 
 - [Orchestrator](./AGENTS.md) (default agent): designs and implements changes; delegates evidence, research, and checks.
-- [Solo](./agents/Solo.md): designs and implements changes with direct tool use and no delegation.
+- [Solo](./agents/Solo.md): designs and implements changes; works directly.
 
 Sub-agents:
 
@@ -96,7 +96,7 @@ Sub-agents:
 
 ## Shared skills
 
-- [alexandru/skills](https://github.com/alexandru/skills/tree/v12.0.0)
+- [alexandru/skills](https://github.com/alexandru/skills/tree/v13.1.1)
   - `code-review`: user-invoked adapter for `code-reviewing`.
   - `code-reviewing`: review changed code for bugs, structural problems, performance issues, and unintended behavior.
   - `code-refine`: behavior-preserving refinement using the `code-refinements` lenses.
