@@ -6,7 +6,7 @@
 
 .NOTPARALLEL:
 
-ALEXANDRU_SKILLS_TAG := v13.1.1
+ALEXANDRU_SKILLS_TAG := v13.2.1
 MATTPOCOCK_SKILLS_TAG := v1.3.1
 # The skills CLI installs `-a pi` into ~/.pi/agent/skills, which
 # PI_CODING_AGENT_DIR setups do not read. Target the universal location
@@ -54,7 +54,8 @@ install-skills:
 		code-review \
 		code-reviewing \
 		code-refine \
-		code-refinements
+		code-refinements \
+		external-research
 	npx skills add https://github.com/mattpocock/skills/tree/$(MATTPOCOCK_SKILLS_TAG) $(SKILLS_INSTALL_FLAGS) --skill \
 		codebase-design \
 		diagnosing-bugs \
