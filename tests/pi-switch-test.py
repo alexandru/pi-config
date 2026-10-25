@@ -21,7 +21,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any
 
-TOOL_PATH = Path(__file__).resolve().parent / "pi-switch.py"
+TOOL_PATH = Path(__file__).resolve().parent.parent / "bin" / "pi-switch.py"
 
 
 def load_tool() -> ModuleType:

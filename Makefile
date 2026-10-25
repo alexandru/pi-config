@@ -18,7 +18,7 @@ COURSIER_LINUX_AARCH64_URL := https://github.com/VirtusLab/coursier-m1/releases/
 # Coursier installs launchers outside the default PATH of a non-login shell.
 COURSIER_BIN_PATHS := $(HOME)/.local/bin:$(HOME)/.local/share/coursier/bin:$(HOME)/Library/Application Support/Coursier/bin
 
-.PHONY: all install-pipx generate-config check-mattpocock-skills-tag install-skills update-skills install-coursier install-cellar test-pi-switch
+.PHONY: all install-pipx generate-config check-mattpocock-skills-tag install-skills update-skills install-coursier install-cellar test test-pi-switch
 
 all: install-pipx generate-config install-skills install-cellar
 
@@ -118,5 +118,7 @@ install-cellar: install-coursier
 	cellar --version; \
 	cellar telemetry disable --global
 
+test: test-pi-switch
+
 test-pi-switch:
-	./bin/pi-switch-test.py
+	./tests/pi-switch-test.py
