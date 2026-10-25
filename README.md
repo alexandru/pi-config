@@ -70,15 +70,12 @@ The switcher generates `settings.json` (Pi's configuration file) and `agents.mod
 
 Main agents:
 
-- [Orchestrator](./AGENTS.md) (default agent): designs and implements changes; delegates evidence, research, and checks.
+- [Orchestrator](./AGENTS.md) (default agent): designs and implements changes; delegates evidence, research, and execution to Junior.
 - [Solo](./agents/Solo.md): designs and implements changes; works directly.
 
 Sub-agents:
 
-- [Analyst](./agents/Analyst.md): reads code and evidence, exercises judgment, and advises without making changes.
-- [Junior](./agents/Junior.md): bounded execution, mechanical work.
-- [Explorer](./agents/Explorer.md): read-only codebase evidence gathering.
-- [Librarian](./agents/Librarian.md): read-only external documentation and dependency-source research.
+- [Junior](./agents/Junior.md): codebase and external evidence gathering, bounded execution, mechanical work.
 
 ## Defined commands
 

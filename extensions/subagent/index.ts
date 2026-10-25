@@ -9,6 +9,14 @@ import { type AgentConfig, type AgentScope, discoverAgents } from "./agents.ts";
 
 const MAX_PARALLEL_TASKS = 4;
 
+// The main agent, run as a child `pi` process with its own prompt and default tools.
+const ORCHESTRATOR: AgentConfig = {
+	name: "Orchestrator",
+	description: "The main agent",
+	systemPrompt: "",
+	source: "user",
+};
+
 const Task = Type.Object({
 	agent: Type.String({ description: "Configured agent name" }),
 	task: Type.String({ description: "Self-contained task for the agent" }),
@@ -98,8 +106,11 @@ async function runAgent(
 	const tempDirectory = await fs.promises.mkdtemp(path.join(os.tmpdir(), "pi-subagent-"));
 	const promptPath = path.join(tempDirectory, "system.md");
 	try {
-		await fs.promises.writeFile(promptPath, agent.systemPrompt, { encoding: "utf8", mode: 0o600 });
-		const args = ["--mode", "json", "-p", "--no-session", "--append-system-prompt", promptPath];
+		const args = ["--mode", "json", "-p", "--no-session"];
+		if (agent.systemPrompt) {
+			await fs.promises.writeFile(promptPath, agent.systemPrompt, { encoding: "utf8", mode: 0o600 });
+			args.push("--append-system-prompt", promptPath);
+		}
 		const model = agent.model ?? preset?.model ?? defaultModel;
 		if (model) args.push("--model", model);
 		if (preset?.thinkingLevel) args.push("--thinking", preset.thinkingLevel);
@@ -160,7 +171,7 @@ export default function (pi: ExtensionAPI) {
 		name: "subagent",
 		label: "Subagent",
 		description: [
-			"Delegate a bounded task to Solo, Analyst, Junior, Explorer, or Librarian in an isolated Pi process.",
+			"Delegate a bounded task to Orchestrator, Solo, or Junior in an isolated Pi process.",
 			"Use single mode, independent parallel tasks, or an ordered chain using {previous}.",
 			`User agents are loaded from ${path.join(getAgentDir(), "agents")}; project agents are opt-in.`,
 		].join(" "),
@@ -169,7 +180,7 @@ export default function (pi: ExtensionAPI) {
 		async execute(_toolCallId, params, signal, _onUpdate, ctx) {
 			const scope = (params.agentScope ?? "user") as AgentScope;
 			const agents = discoverAgents(ctx.cwd, scope);
-			const lookup = (name: string) => agents.find((agent) => agent.name === name);
+			const lookup = (name: string) => (name === ORCHESTRATOR.name ? ORCHESTRATOR : agents.find((agent) => agent.name === name));
 			const model = ctx.model ? `${ctx.model.provider}/${ctx.model.id}` : undefined;
 			const agentModels = loadAgentModels();
 			const single = params.agent && params.task ? { agent: params.agent, task: params.task, cwd: params.cwd } : undefined;
@@ -185,12 +196,6 @@ export default function (pi: ExtensionAPI) {
 				...(params.tasks?.map((item) => item.agent) ?? []),
 				...(params.chain?.map((item) => item.agent) ?? []),
 			]);
-			if (requestedNames.has("Orchestrator")) {
-				return {
-					content: [{ type: "text", text: "Orchestrator is a primary agent and cannot run as a subagent." }],
-					isError: true,
-				};
-			}
 			const projectAgents = [...requestedNames].map(lookup).filter((agent) => agent?.source === "project");
 			if (projectAgents.length > 0 && params.confirmProjectAgents !== false && ctx.hasUI) {
 				const approved = await ctx.ui.confirm(

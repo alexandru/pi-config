@@ -14,21 +14,9 @@
         "model": "openai/gpt-6.1-sol",
         "thinkingLevel": "medium",
       },
-      "Analyst": {
-        "model": "openai/gpt-6.1-sol",
-        "thinkingLevel": "high",
-      },
       "Junior": {
         "model": "openai/gpt-6-luna",
         "thinkingLevel": "xhigh",
-      },
-      "Explorer": {
-        "model": "openai/gpt-6-luna",
-        "thinkingLevel": "high",
-      },
-      "Librarian": {
-        "model": "openai/gpt-6-luna",
-        "thinkingLevel": "high",
       },
     },
   },
@@ -38,14 +26,6 @@
     "extends": ["p-openai"],
     "agent": {
       "Junior": {
-        "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "high",
-      },
-      "Explorer": {
-        "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "high",
-      },
-      "Librarian": {
         "model": "opencode-go/deepseek-v4.1-flash",
         "thinkingLevel": "high",
       },
@@ -61,21 +41,9 @@
         "model": "opencode-go/deepseek-v4.1-flash",
         "thinkingLevel": "max",
       },
-      "Analyst": {
-        "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "max",
-      },
       "Junior": {
         "model": "opencode-go/deepseek-v4.1-flash",
         "thinkingLevel": "high",
-      },
-      "Explorer": {
-        "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "low",
-      },
-      "Librarian": {
-        "model": "opencode-go/deepseek-v4.1-flash",
-        "thinkingLevel": "low",
       },
     },
   },
@@ -89,21 +57,9 @@
         "model": "mistral/zai-glm-5-3",
         "thinkingLevel": "max",
       },
-      "Analyst": {
-        "model": "mistral/zai-glm-5-3-flash",
-        "thinkingLevel": "max",
-      },
       "Junior": {
         "model": "mistral/zai-glm-5-3-flash",
         "thinkingLevel": "max",
-      },
-      "Explorer": {
-        "model": "mistral/zai-glm-5-3-flash",
-        "thinkingLevel": "high",
-      },
-      "Librarian": {
-        "model": "mistral/zai-glm-5-3-flash",
-        "thinkingLevel": "high",
       },
     },
   },
@@ -126,19 +82,9 @@
         "model": "github-copilot/claude-sonnet-5",
         "thinkingLevel": "medium",
       },
-      "Analyst": {
-        "model": "github-copilot/claude-opus-5",
-        "thinkingLevel": "medium",
-      },
       "Junior": {
         "model": "github-copilot/gpt-5.3-codex",
         "thinkingLevel": "medium",
-      },
-      "Explorer": {
-        "model": "github-copilot/claude-haiku-4.5",
-      },
-      "Librarian": {
-        "model": "github-copilot/claude-haiku-4.5",
       },
     },
   },
