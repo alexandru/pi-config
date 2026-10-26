@@ -31,7 +31,7 @@ and Codex can share them. Web search goes through the Brave Search MCP server; s
 
 ### Choose a configuration preset (optional)
 
-The [pi-switch](./bin/pi-switch.py) utility is for quickly switching between multiple setting presets (e.g., multiple sets of models assigned to your agents). It's built with Python 🐍, so you need [pipx](https://pipx.pypa.io/) installed (`make install-pipx`).
+The [pi-switch](./bin/pi-switch.py) utility is for quickly switching between multiple setting presets (e.g., multiple sets of models assigned to your agents).
 
 ```sh
 # Example
@@ -43,14 +43,6 @@ The switcher generates `settings.json` (Pi's configuration file) and `agents.mod
 
 - [pi.common.jsonc](./pi.common.jsonc)
 - [pi.presets.jsonc](./pi.presets.jsonc)
-</details>
-
-<details>
-<summary>STEP 3 — Install Cellar (optional)</summary>
-
-### Install Cellar (optional)
-
-[Cellar](https://github.com/VirtusLab/cellar) is useful for JVM dependency API lookup. The default `make` target installs it and its associated skill.
 </details>
 
 ## Defined agents
