@@ -5,34 +5,21 @@ Part of [alexandru/agents-config](https://github.com/alexandru/agents-config).
 ## Installation
 
 <details>
-<summary>STEP 1 — Clone the repository</summary>
+<summary>STEP 1 — Install</summary>
 
-### Clone the repository
+### Install
 
-```sh
-git clone https://github.com/alexandru/pi-config.git ~/.pi/agent &&
-  git -C ~/.pi/agent config --local status.showUntrackedFiles no
+```bash
+curl -fsSL https://alexandru.github.io/pi-config/install.sh | bash
 ```
 
-**WARN** — this is Pi's working directory, so an existing `~/.pi/agent` may hold
-your sessions and credentials; back it up first, or clone somewhere else and set
-`PI_CODING_AGENT_DIR` in `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
+If the path isn't standard, set `PI_CODING_AGENT_DIR` in `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
 
 ```sh
 export PI_CODING_AGENT_DIR="/absolute/path/to/pi-config"
 ```
 
 The bundled `subagent` extension starts child `pi` processes, so `pi` must remain on `PATH`.
-</details>
-
-<details>
-<summary>STEP 2 — Install dependencies</summary>
-
-### Install dependencies
-
-```sh
-cd ~/.pi/agent && make
-```
 
 The skills are installed under `~/.agents/skills`, where Pi, OpenCode, Copilot CLI,
 and Codex can share them. Web search goes through the Brave Search MCP server; set
@@ -40,7 +27,7 @@ and Codex can share them. Web search goes through the Brave Search MCP server; s
 </details>
 
 <details>
-<summary>STEP 3 — Choose a configuration preset (optional)</summary>
+<summary>STEP 2 — Choose a configuration preset (optional)</summary>
 
 ### Choose a configuration preset (optional)
 
@@ -48,7 +35,7 @@ The [pi-switch](./bin/pi-switch.py) utility is for quickly switching between mul
 
 ```sh
 # Example
-./bin/pi-switch w-openai
+~/.pi/agent/bin/pi-switch w-openai
 ```
 
 The switcher generates `settings.json` (Pi's configuration file) and `agents.models.json`
@@ -59,7 +46,7 @@ The switcher generates `settings.json` (Pi's configuration file) and `agents.mod
 </details>
 
 <details>
-<summary>STEP 4 — Install Cellar (optional)</summary>
+<summary>STEP 3 — Install Cellar (optional)</summary>
 
 ### Install Cellar (optional)
 
