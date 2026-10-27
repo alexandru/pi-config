@@ -47,6 +47,22 @@
       },
     },
   },
+  // ----------------------------------------------------------------------------------
+  // Mistral / GLM
+  "p-mistral-glm": {
+    "model": "mistral/zai-glm-5-3",
+    "thinkingLevel": "max",
+    "agent": {
+      "Solo": {
+        "model": "mistral/zai-glm-5-3",
+        "thinkingLevel": "max",
+      },
+      "Junior": {
+        "model": "mistral/zai-glm-5-3-flash",
+        "thinkingLevel": "max",
+      },
+    },
+  },
   // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   // Presets meant for usage inside of a Docker container.
   // Pi's MCP servers are local commands, so they need no Docker-specific
@@ -77,6 +93,9 @@
   },
   "w-openai-go": {
     "extends": ["w-common", "p-openai-go"],
+  },
+  "w-mistral-glm": {
+    "extends": ["w-common", "p-mistral-glm"],
   },
   "w-deepseek": {
     "extends": ["w-common", "p-deepseek"],
