@@ -8,15 +8,15 @@
   // Pure OpenAI / ChatGPT
   "p-openai": {
     "model": "openai/gpt-6.1-sol",
-    "thinkingLevel": "medium",
+    "thinkingLevel": "high",
     "agent": {
       "Solo": {
         "model": "openai/gpt-6.1-sol",
-        "thinkingLevel": "medium",
+        "thinkingLevel": "high",
       },
       "Junior": {
-        "model": "openai/gpt-6-luna",
-        "thinkingLevel": "xhigh",
+        "model": "openai/gpt-6.1-terra",
+        "thinkingLevel": "medium",
       },
     },
   },
